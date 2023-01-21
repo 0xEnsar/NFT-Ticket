@@ -11,19 +11,27 @@ contract Helper is Ownable {
     uint256 private balance;
     mapping(string => Ticket) tickets;
 
+    event Mint(string filmname);
 
     constructor() {
         admin = payable(msg.sender);
     }
 
-    function createNewTicket(string memory _filmName, uint32 _startDate, string memory _uri) external onlyOwner {
-        Ticket ticket = new Ticket(_filmName, _startDate, _uri);
+    function createNewTicket(string memory _filmName, uint32 _validDate, string memory _uri, uint _ticketPrice) external onlyOwner {
+        require(_validDate > block.timestamp, "Date is wrong");
+        Ticket ticket = new Ticket(_filmName, _validDate, _uri, _ticketPrice);
         tickets[_filmName] = ticket;
     }
 
     function mint(string memory _filmName) payable public {
-        require(msg.value >= 0.01 ether, "money is not enough");
-        tickets[_filmName].safeMint(msg.sender);
+        Ticket ticket = tickets[_filmName];
+        require(msg.value >= ticket.getTicketPrice() * 1 ether, "Ether is not enought");
+        ticket.safeMint(msg.sender);
+        emit Mint(_filmName);
+    }
+
+    function useTicket(string memory _filmName, uint _id) public {
+        tickets[_filmName].use(_id);
     }
 
     function withdraw() public onlyOwner {

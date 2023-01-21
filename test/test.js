@@ -18,24 +18,23 @@ describe("Helper Contract", function() {
     })
 
     it("helper create a new ticket type", async function() {
-        await helper.connect(owner).createNewTicket("avatar", 5, "avatar");
+        await helper.connect(owner).createNewTicket("avatar", 1874342999, "avatar",  1);
         ticketA = await helper.connect(owner).getTicket("avatar");
         expect(ticketA).to.be.properAddress;
     })
 
-    it("ticket return base uri", async function() {
-        ticketA = await ethers.getContractAt("Ticket", ticketA);
-        expect(await ticketA.connect(owner).getBaseURI()).to.equal("avatar");
-    })
-
-
     it("mint a ticket", async function() {
-        await helper.connect(owner).mint("avatar", { value: ethers.utils.parseEther("0.01") });
+        ticketA = await ethers.getContractAt("Ticket", ticketA);
+        await helper.connect(owner).mint("avatar", { value: ethers.utils.parseEther("1") });
         expect(await ticketA.connect(owner).balanceOf(owner.address)).to.equal(1);
     })
 
+    it("ticket return base uri", async function() {
+        expect(await ticketA.connect(owner).tokenURI(0)).to.equal("avatar");
+    })
+
     it("mint a ticket with wrong value", async function() {
-        await expect(helper.connect(owner).mint("avatar", { value: ethers.utils.parseEther("0.001") })).to.be.revertedWith("money is not enough");
+        await expect(helper.connect(owner).mint("avatar", { value: ethers.utils.parseEther("0.01") })).to.be.reverted;
     })
 
     it("withdraw", async function() {
