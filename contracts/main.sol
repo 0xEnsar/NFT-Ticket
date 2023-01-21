@@ -25,7 +25,7 @@ contract Helper is Ownable {
 
     function mint(string memory _filmName) payable public {
         Ticket ticket = tickets[_filmName];
-        require(msg.value >= ticket.getTicketPrice() * 1 ether, "Ether is not enought");
+        require(msg.value >= ticket.getTicketPrice() * 1000000000000000000, "Ether is not enought");
         ticket.safeMint(msg.sender);
         emit Mint(_filmName);
     }

@@ -9,7 +9,7 @@ async function main() {
 
     const [owner] = await ethers.getSigners();
 
-    const helper = await ethers.getContractAt("Helper", "0x25b294Cc51F1771DD9035DD223932d0Fa199ff49");
+    const helper = await ethers.getContractAt("Helper", "0x7C9EF60656b49B431863c2239B80d4E1a0B1BDcD");
 
     await helper.connect(owner).createNewTicket(filmname, validDate, ipfs, ticketPrice);
     
