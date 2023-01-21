@@ -5,24 +5,26 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Ticket is ERC721, Ownable{
+    using Strings for uint256;
 
     string public filmName;
     uint32 public startDate;
     uint256 private id;
-    string private baseURI;
+    string public baseURI;
     uint256 public tokenId = 0;
     mapping(uint256 => bool) public isUsed;
-    // mapping(address => uint256[]) ownerIds;
 
-    constructor(string memory _filmName, uint32 _startDate, string memory __baseURI) ERC721("Paribucineverse ticket", "PRBT") {
+    constructor(string memory _filmName, uint32 _startDate, string memory _baseURI) ERC721("Paribucineverse ticket", "PRBT") {
         filmName = _filmName;
         startDate = _startDate;
-        baseURI = __baseURI;
+        baseURI = _baseURI;
     }
 
+    function tokenURI(uint256 tokenId) public view virtual override returns(string memory){
+        super.tokenURI;
 
-    function getBaseURI() external view returns (string memory) {
-        return baseURI;
+        ownerOf(tokenId);
+        return string(abi.encodePacked(baseURI));
     }
 
     function safeMint(address to) public onlyOwner {
@@ -30,7 +32,7 @@ contract Ticket is ERC721, Ownable{
         tokenId++;
     }
 
-    function use(uint256 _id) external {
+    function use(uint256 _id) external onlyOwner {
         isUsed[_id] = true;
     }
 
