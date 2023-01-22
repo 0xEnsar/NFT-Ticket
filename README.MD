@@ -15,4 +15,4 @@ Deploy için hardhat.config.js içindeki PRIVATE_KEY kısmına private keyininzi
 Yeni film ticketı oluşturmak için createNewTicket.js, kontratta birikin "ether"i çekmek için withdraw.js scriptlerini çalıştırabilirsiniz.
 
 Aynı zamanda bir frontend de geliştirdim repoya burdan: https://github.com/0xEnsar/finalcase-frontend
-Deploy edilmiş siteye burdan : https://github.com/0xEnsar/finalcase-frontend ulaşabilirsiniz
+Siteye burdan : https://candid-starburst-03fdd5.netlify.app/ ulaşabilirsiniz
