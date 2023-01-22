@@ -3,13 +3,13 @@ const { ethers } = require("hardhat");
 const filmname = "avatar";
 const ipfs = "https://gateway.pinata.cloud/ipfs/QmNQEkEQto3NyDr9hMKJwWN4E3MevzxzBJRNxqVoRUuNjr";
 const validDate = 3874342999; //uinx timestamp
-const ticketPrice = "1";
+const ticketPrice = "1000000000000000000";
 
 async function main() {
 
     const [owner] = await ethers.getSigners();
 
-    const helper = await ethers.getContractAt("Helper", "0x7C9EF60656b49B431863c2239B80d4E1a0B1BDcD");
+    const helper = await ethers.getContractAt("Helper", "0xC26408C60dc3167D8731198cb92f39E2B338B5Ab");
 
     await helper.connect(owner).createNewTicket(filmname, validDate, ipfs, ticketPrice);
     

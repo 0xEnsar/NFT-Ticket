@@ -8,7 +8,6 @@ import "./tickets.sol";
 contract Helper is Ownable {
 
     address payable public admin;
-    uint256 private balance;
     mapping(string => Ticket) tickets;
 
     event Mint(string filmname);
@@ -25,7 +24,7 @@ contract Helper is Ownable {
 
     function mint(string memory _filmName) payable public {
         Ticket ticket = tickets[_filmName];
-        require(msg.value >= ticket.getTicketPrice() * 1000000000000000000, "Ether is not enought");
+        require(msg.value >= ticket.getTicketPrice(), "Ether is not enought");
         ticket.safeMint(msg.sender);
         emit Mint(_filmName);
     }
@@ -36,11 +35,10 @@ contract Helper is Ownable {
 
     function withdraw() public onlyOwner {
         admin.transfer(address(this).balance);
-        balance = 0;
     }
 
     function getBalance() public view returns(uint256) {
-        return balance;
+        return address(this).balance;
     }
 
     function getTicket(string memory _filmName) public view returns(Ticket) {
